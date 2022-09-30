@@ -12,8 +12,6 @@ from app import FONTS
 from .label import SimpleLabel, LabelContent, LabelOrientation, LabelType
 from .printer import PrinterQueue
 
-LINE_SPACINGS = (100, 150, 200, 250, 300)
-
 # Don't change as brother_ql is using this DPI value
 DEFAULT_DPI = 300
 
@@ -39,7 +37,6 @@ def index():
                            default_image_mode=current_app.config['IMAGE_DEFAULT_MODE'],
                            default_bw_threshold=current_app.config['IMAGE_DEFAULT_BW_THRESHOLD'],
                            default_font_family=current_app.config['LABEL_DEFAULT_FONT_FAMILY'],
-                           line_spacings=LINE_SPACINGS,
                            default_line_spacing=current_app.config['LABEL_DEFAULT_LINE_SPACING'],
                            default_dpi=DEFAULT_DPI,
                            default_margin_top=current_app.config['LABEL_DEFAULT_MARGIN_TOP'],

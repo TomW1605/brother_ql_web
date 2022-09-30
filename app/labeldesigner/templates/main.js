@@ -22,7 +22,7 @@ function formData(cut_once) {
         {% if red_support %}
         print_color:       $('input[name=printColor]:checked').val(),
         {% endif %}
-        line_spacing:      $('input[name=lineSpacing]:checked').val(),
+        line_spacing:      $('#lineSpacing').val(),
         cut_once:          cut_once ? 1 : 0,
     }
 }

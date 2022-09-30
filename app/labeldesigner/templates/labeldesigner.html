@@ -84,13 +84,7 @@
                             </div>
 
                             <label for="lineSpacing" class="control-label input-group" style="margin-top: 10px; margin-bottom: 0">Line Spacing:</label>
-                            <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-                                {% for line_spacing in line_spacings %}
-                                <label class="btn btn-secondary {% if default_line_spacing == line_spacing %}active{% endif %}" id="lineSpacing{{line_spacing}}">
-                                    <input type="radio" name="lineSpacing" onchange="preview()" value="{{line_spacing}}" aria-label="{{line_spacing}}%" {% if default_line_spacing == line_spacing %}checked{% endif %}>{{line_spacing}}%
-                                </label>
-                                {% endfor %}
-                            </div>
+                            <input id="lineSpacing" class="form-control" type="number" min="50" max="300" value="{{ default_line_spacing }}" onChange="preview()" required>
 
                         </div>
                         <!-- class="card-body" -->
