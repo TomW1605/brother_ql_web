@@ -91,13 +91,13 @@ def print_text():
         printer = create_printer_from_request(request)
         label = create_label_from_request(request)
         print_count = int(request.values.get('print_count', 1))
-        cut_once = int(request.values.get('cut_once', 0)) == 1
+        cut_mode = request.values.get('cut_mode', 'cut')
     except Exception as e:
         return_dict['message'] = str(e)
         current_app.logger.error('Exception happened: %s', e)
         return return_dict
 
-    printer.add_label_to_queue(label, print_count, cut_once)
+    printer.add_label_to_queue(label, print_count, cut_mode)
 
     try:
         printer.process_queue()
@@ -145,6 +145,7 @@ def create_label_from_request(request):
         'font_family': d.get('font_family'),
         'font_style': d.get('font_style'),
         'print_color': d.get('print_color', 'black'),
+        'cut_mode': d.get('cut_mode', 'cut'),
     }
 
     def get_label_dimensions(label_size):
