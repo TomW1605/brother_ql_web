@@ -16,18 +16,20 @@
                         <div class="card-body">
                             <label for="labelSize" style="margin-bottom: 0">Label Size:</label>
                             <select class="form-control" id="labelSize" onChange="preview()">
-                                {% for label_size in label_sizes %}<option value="{{label_size[0]}}" data-round="{{label_size[2]}}" {% if default_label_size == label_size[0] %}selected{% endif %}>{{label_size[1]}}</option>{% endfor %}
+                                {% for label_size in label_sizes %}
+                                    <option value="{{label_size[0]}}" data-round="{{label_size[2]}}" {% if default_label_size == label_size[0] %}selected{% endif %}>{{label_size[1]}}</option>
+                                {% endfor %}
                             </select>
 
                             <label for="orientation" class="control-label input-group" style="margin-top: 10px; margin-bottom: 0">Label Orientation:</label>
                             <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
                                 <label class="btn btn-secondary {% if default_orientation == 'standard' %}active{% endif %}" id="orientation_standard">
                                     <input type="radio" name="orientation" onchange="preview()" value="standard" aria-label="Standard" {% if default_orientation == 'standard' %}checked{% endif %}>
-                                    <span class="fas fa-ruler-horizontal" aria-hidden="true"> Standard
+                                    <span class="fas fa-ruler-horizontal" aria-hidden="true"> Standard</span>
                                 </label>
                                 <label class="btn btn-secondary {% if default_orientation == 'rotated' %}active{% endif %}" id="orientation_rotated">
                                     <input type="radio" name="orientation" onchange="preview()" value="rotated" aria-label="Rotated" {% if default_orientation == 'rotated' %}checked{% endif %}>
-                                    <span class="fas fa-ruler-vertical" aria-hidden="true"> Rotated
+                                    <span class="fas fa-ruler-vertical" aria-hidden="true"> Rotated</span>
                                 </label>
                             </div>
 
@@ -92,6 +94,18 @@
                                 {% endfor %}
                             </div>
 
+                            <label for="shrink_or_wrap" class="control-label input-group" style="margin-top: 10px; margin-bottom: 0">Text Wrap or Shrink:</label>
+                            <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+                                <label class="btn btn-secondary active" id="shrink_or_wrap_wrap">
+                                    <input type="radio" name="shrink_or_wrap" onchange="preview()" value="wrap" aria-label="Wrap lines" checked>
+                                    <span aria-hidden="true"> Wrap lines</span>
+                                </label>
+                                <label class="btn btn-secondary" id="shrink_or_wrap_shrink">
+                                    <input type="radio" name="shrink_or_wrap" onchange="preview()" value="shrink" aria-label="Shrink to fit">
+                                    <span aria-hidden="true"> Shrink to fit</span>
+                                </label>
+                            </div>
+
                         </div>
                         <!-- class="card-body" -->
                     </div>
@@ -132,11 +146,11 @@
                             <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
                                 <label class="btn btn-secondary {% if default_image_mode == 'black_and_white' %}active{% endif %}" id="image_mode_bw">
                                     <input type="radio" name="imageMode" onchange="preview()" value="black_and_white" aria-label="Black & White" {% if default_image_mode == 'black_and_white' %}checked{% endif %}>
-                                    <span class="fas fa-ruler-horizontal" aria-hidden="true"> Black & White
+                                    <span class="fas fa-ruler-horizontal" aria-hidden="true"> Black & White</span>
                                 </label>
                                 <label class="btn btn-secondary {% if default_image_mode == 'grayscale' %}active{% endif %}" id="image_mode_grayscale">
                                     <input type="radio" name="imageMode" onchange="preview()" value="grayscale" aria-label="Grayscale" {% if default_image_mode == 'grayscale' %}checked{% endif %}>
-                                    <span class="fas fa-ruler-vertical" aria-hidden="true"> Grayscale
+                                    <span class="fas fa-ruler-vertical" aria-hidden="true"> Grayscale</span>
                                 </label>
                             </div>
 

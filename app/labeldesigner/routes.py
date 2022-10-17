@@ -24,7 +24,6 @@ LABEL_SIZES = [(
         ROUND_DIE_CUT_LABEL,))  # True if round label
 ) for name in label_sizes]
 
-
 @bp.route('/')
 def index():
     RED_SUPPORT = current_app.config['PRINTER_MODEL'] in two_color_support
@@ -141,6 +140,7 @@ def create_label_from_request(request):
         'image_mode': d.get('image_mode', "grayscale"),
         'image_bw_threshold': int(d.get('image_bw_threshold', 70)),
         'font_size': int(d.get('font_size', 100)),
+        'shrink_or_wrap': d.get('shrink_or_wrap', 'wrap'),
         'line_spacing': int(d.get('line_spacing', 100)),
         'font_family': d.get('font_family'),
         'font_style': d.get('font_style'),
@@ -235,5 +235,6 @@ def create_label_from_request(request):
         image=get_uploaded_image(request.files.get('image', None)),
         font_path=get_font_path(context['font_family'], context['font_style']),
         font_size=context['font_size'],
-        line_spacing=context['line_spacing']
+        line_spacing=context['line_spacing'],
+        shrink_or_wrap=context['shrink_or_wrap']
     )

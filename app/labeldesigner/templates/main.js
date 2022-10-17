@@ -24,6 +24,7 @@ function formData(cut_once) {
         {% endif %}
         line_spacing:      $('input[name=lineSpacing]:checked').val(),
         cut_once:          cut_once ? 1 : 0,
+        shrink_or_wrap: $('input[name=shrink_or_wrap]:checked').val(),
     }
 }
 
@@ -83,6 +84,14 @@ function preview() {
         $('#print_color_red').addClass('disabled');
     }
     {% endif %}
+
+    if ($('input[name=orientation]:checked').val().includes('standard')) {
+        $('#shrink_or_wrap_wrap').removeClass('disabled');
+        $('#shrink_or_wrap_shrink').removeClass('disabled');
+    } else {
+        $('#shrink_or_wrap_wrap').addClass('disabled');
+        $('#shrink_or_wrap_shrink').addClass('disabled');
+    }
 
     if($('input[name=printType]:checked').val() == 'image') {
         $('#groupLabelText').hide();

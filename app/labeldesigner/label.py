@@ -1,7 +1,9 @@
 from enum import Enum, auto
+from math import floor
+
 from qrcode import QRCode, constants
 from PIL import Image, ImageDraw, ImageFont
-
+import textwrap
 
 class LabelContent(Enum):
     TEXT_ONLY = auto()
@@ -53,7 +55,8 @@ class SimpleLabel:
             image=None,
             font_path='',
             font_size=70,
-            line_spacing=100):
+            line_spacing=100,
+            shrink_or_wrap='wrap'):
         self._width = width
         self._height = height
         self.label_content = label_content
@@ -69,6 +72,7 @@ class SimpleLabel:
         self._font_path = font_path
         self._font_size = font_size
         self._line_spacing = line_spacing
+        self._shrink_or_wrap = shrink_or_wrap
 
     @property
     def label_content(self):
@@ -127,6 +131,11 @@ class SimpleLabel:
             img_width, img_height = (0, 0)
 
         if self._label_content in (LabelContent.TEXT_ONLY, LabelContent.TEXT_QRCODE):
+            if self._label_orientation == LabelOrientation.STANDARD:
+                if self._shrink_or_wrap == 'wrap':
+                    self.text = self._wrap_text()
+                elif self._shrink_or_wrap == 'shrink':
+                    self._font_size = self._scale_text()
             textsize = self._get_text_size()
         else:
             textsize = (0, 0, 0, 0)
@@ -219,6 +228,45 @@ class SimpleLabel:
                 line = ' '
             lines.append(line)
         return '\n'.join(lines)
+
+    def _wrap_text(self):
+        lines = []
+        for line in self._prepare_text(self.text).split('\n'):
+            line_width = self._get_font().getsize(line)[0]
+            max_char = floor(self._width/(line_width/len(line)))-2
+            line = textwrap.fill(line, width=max_char)
+            lines.append(line)
+        return '\n'.join(lines)
+
+    def _scale_text(self):
+        font_size = self._font_size
+
+        if self._label_type in (LabelType.DIE_CUT_LABEL, LabelType.ROUND_DIE_CUT_LABEL):
+            font = ImageFont.truetype(self._font_path, font_size)
+            img = Image.new('L', (20, 20), 'white')
+            draw = ImageDraw.Draw(img)
+            text_height = draw.multiline_textsize(
+                self._prepare_text(self._text),
+                font=font,
+                spacing=int(self._font_size*((self._line_spacing-100)/100)))[1]
+
+            while text_height > self._height:
+                font_size -= 1
+                font = ImageFont.truetype(self._font_path, font_size)
+                text_height = draw.multiline_textsize(
+                    self._prepare_text(self._text),
+                    font=font,
+                    spacing=int(self._font_size*((self._line_spacing-100)/100)))[1]
+
+        for line in self.text.strip().split('\n'):
+            font = ImageFont.truetype(self._font_path, font_size)
+            line_width = font.getsize(line)[0]
+            while line_width > self._width:
+                font_size -= 1
+                font = ImageFont.truetype(self._font_path, font_size)
+                line_width = font.getsize(line)[0]
+
+        return font_size
 
     def _get_font(self):
         return ImageFont.truetype(self._font_path, self._font_size)
